@@ -1,0 +1,50 @@
+package com.zaikakart.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne
+    private User customer;
+
+//    Because a user can only order from one restaurant, not more than one at a time
+//    whenever Order object fails we don't need the restaurant, so jsonignore
+    @JsonIgnore
+    @ManyToOne
+    private Restaurant restaurant;
+
+    private Long totalAmount;
+
+    private String orderStatus;
+
+    private Date createdAt;
+
+//    Many order are made on same address
+    @ManyToOne
+    private Address deliveryAddress;
+
+//    one order can have many items
+    @OneToMany
+    private List<OrderItem> items;
+
+//    private Payment payment;
+
+    private int totalItem;
+
+    private int totalPrice;
+}
