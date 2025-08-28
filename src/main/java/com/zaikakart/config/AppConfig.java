@@ -30,12 +30,14 @@ public class AppConfig {
 //                                        if any endpoint starts with this then it should be available for restaurant owner and admin only
                                         .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER","ADMIN")
 //                                      any role can access this one
-                                        .requestMatchers("/api/**").authenticated()
+                                .requestMatchers("/api/users/profile").authenticated()
+                                .requestMatchers("/api/**").authenticated()
                                         .anyRequest().permitAll()
             ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf->csrf.disable())
                 .cors(cors->cors.configurationSource(corsConfigurationSource()));
-    return null;}
+    return http.build();
+            }
 
     private CorsConfigurationSource corsConfigurationSource() {
         return new CorsConfigurationSource(){
