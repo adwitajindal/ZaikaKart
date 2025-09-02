@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.zaikakart.OnlineFoodOrderingApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.75 s -- in com.zaikakart.OnlineFoodOrderingApplicationTests
