@@ -1,15 +1,50 @@
-import { Modal,Button,Card,Divider } from '@mui/material'
-import React from 'react'
-import CartItem from './CartItem'
+import React from 'react';
+import { Modal, Button, Card, Divider, Box,Grid, TextField } from '@mui/material';
+import CartItem from './CartItem';
 import AddressCard from './AddressCard';
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+
+import { Formik, Form, Field } from "formik";
+
+import {AddLocation} from "@mui/icons-material";
+// import * as Yup from "yup";
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  outline:"none",
+  boxShadow: 24,
+  p: 4,
+};
+
+const initialValues={
+  streetAddress:"",
+  state:"",
+  pincode:'',
+  city:""
+}
+
+// const validationSchema=Yup.object.shape({
+//   streetAddress:Yup.string().required("Street address is required"),
+//   state:Yup.string().required("State address is required"),
+//   pincode:Yup.required("pincode address is required"),
+//   city:Yup.string().required("city address is required")
+// })
 
 const items=[1,1];
 const Cart = () => {
   const createOrderUsingSelectedAddress=()=>{
 
   }
-  const handleOpenAddressModal=()=>{
+  const handleOpenAddressModal=()=>setOpen(true);
+    const [open, setOpen] = React.useState(false);
+ 
+  const handleClose = () => setOpen(false);
+  const handleSubmit=(values)=>{
+    console.log("form value ",values);
 
   }
   return (
@@ -59,7 +94,7 @@ const Cart = () => {
                     <AddressCard handleSelectAddress={createOrderUsingSelectedAddress} item={item} showButton={true}/>
                     ))}
                     <Card className='flex gap-5 w-64 p-5'>
-      <AddLocationAltIcon/>
+      <AddLocation/>
       <div className='space-y-3 text-gray-500'>
         <h1 className='font-semibold text-lg text-white'>Add New Address</h1>
             <Button variant='outlined' fullWidth onClick={handleOpenAddressModal}>Add</Button>
@@ -70,9 +105,93 @@ const Cart = () => {
              </div>
           </section>
       </main>
-      <Modal>
+     <Modal
+       open={open}
+       onClose={handleClose}
+       aria-labelledby="modal-modal-title"
+       aria-describedby="modal-modal-description"
+     >
+       <Box sx={style}>
+<Formik initialValues={initialValues}
+// validationSchema={validationSchema}
+onSubmit={handleSubmit}
+>
+<Form>
+  <Grid container spacing={2}>
+<Grid item xs={12}>
+  <Field
+  as={TextField}
+  name="streetAddress"
+  label="Street Address"
+  fullWidth
+  variant="outlined"
+  // error={!ErrorMessage("streetAddress")}
+  // helperText={
+  //   <ErrorMessage>
+  //     {(msg)=><span className='text-red-600'>{msg}</span>}
+  //   </ErrorMessage>
+  // }
+  
+  />
+</Grid>
 
-      </Modal>
+<Grid item xs={12}>
+  <Field
+  as={TextField}
+  name="state"
+  label="state"
+  fullWidth
+  variant="outlined"
+  // error={!ErrorMessage("streetAddress")}
+  // helperText={
+  //   <ErrorMessage>
+  //     {(msg)=><span className='text-red-600'>{msg}</span>}
+  //   </ErrorMessage>
+  // }
+  
+  />
+</Grid>
+
+<Grid item xs={12}>
+  <Field
+  as={TextField}
+  name="city"
+  label="city"
+  fullWidth
+  variant="outlined"
+  // error={!ErrorMessage("streetAddress")}
+  // helperText={
+  //   <ErrorMessage>
+  //     {(msg)=><span className='text-red-600'>{msg}</span>}
+  //   </ErrorMessage>
+  // }
+  
+  />
+</Grid>
+<Grid item xs={12}>
+  <Field
+  as={TextField}
+  name="pincode"
+  label="pincode"
+  fullWidth
+  variant="outlined"
+  // error={!ErrorMessage("streetAddress")}
+  // helperText={
+  //   <ErrorMessage>
+  //     {(msg)=><span className='text-red-600'>{msg}</span>}
+  //   </ErrorMessage>
+  // }
+  
+  />
+</Grid>
+<Grid item xs={12}>
+<Button fullWidth variant='contained' type='submit' color='primary'>Deliver Here</Button>
+</Grid>
+  </Grid>
+</Form>
+</Formik>
+       </Box>
+     </Modal>
     </>
   )
 }
