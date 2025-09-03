@@ -71,7 +71,7 @@ const RestaurantDetails = () => {
         </section>
         <Divider/>
         <section className='pt-[2rem] lg:flex relative'>
-          <div className='space-y-10 lg:w-[20]% filter '>
+          <div className='space-y-10 lg:w-[20%] filter '>
             <div className='box space-y-5 lg:sticky top-28'>
               <div>
                 <Typography variant='h5' className='pb-3'>
@@ -113,7 +113,7 @@ const RestaurantDetails = () => {
             </div>
           </div>
 
-          <div className='space-y-5 lg:w-[80]% lg:pl-10'>
+          <div className='space-y-5 lg:w-[80%] lg:pl-10'>
 {menu.map((item)=><MenuCard/>)}
           </div>
         </section>
