@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use } from 'react'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
@@ -18,17 +18,21 @@ const menu=[
     {title:"Logout",icon: <LogoutIcon/>}
 ]
 const ProfileNavigation = ({open,handleClose}) => {
-  const isSmallScreen=useMediaQuery('(min-width:900px)');
+  const isSmallScreen=useMediaQuery('(max-width:900px)');
+  const navigate=useNavigate();
+  const handleNavigation=()=>{
+  }  
+
   return (
     <div>
       <Drawer 
       variant={isSmallScreen?"temporary":"permanent"} 
       onClose={handleClose} 
-      open={open} 
+      open={isSmallScreen?open:true} 
       anchor='left' 
-      sx={{zIndex:1}}
+      sx={{zIndex:1,position:"sticky"}}
       >
-        <div className='w=[50vw] lg:w-[20vw] h-[100vh] flex flex-col justify-center text-xl gap-8 pt-16'>
+        <div className='w-[50vw] lg:w-[20vw] h-[100vh] flex flex-col justify-center text-xl pt-16 gap-8'>
 {menu.map((item,i)=><>
 <div className='px-5 flex items-center space-x-5 cursor-pointer'>
   {item.icon}
