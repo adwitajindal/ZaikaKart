@@ -11,6 +11,7 @@ import {
     LOGOUT,
 
     GET_USER_REQUEST,
+    GET_USER_SUCCESS,
     GET_USER_FAILURE,
 
     ADD_TO_FAVORITE_REQUEST,
@@ -62,13 +63,13 @@ export const loginUser=(reqData)=>async(dispatch)=>{
 export const getUser=(jwt)=>async(dispatch)=>{
     dispatch({type:GET_USER_REQUEST})
     try {
-        const {data}=await api.get(`/auth/signin`, {
+        const {data}=await api.get(`/api/users/profile`, {
             headers:{
                 Authorization:`Bearer ${jwt}`
             }
         })
 
-        dispatch({type:LOGIN_SUCCESS,payload:data})
+        dispatch({type:GET_USER_SUCCESS,payload:data})
         console.log("user profile", data)
         
     } catch (error) {
@@ -96,7 +97,7 @@ export const addToFavorite=({jwt,restaurantId})=>async(dispatch)=>{
 }
 
 export const logout =()=>async(dispatch)=>{
-    dispatch({type:LOGIN_SUCCESS})
+   
     try {
         localStorage.clear();
         dispatch({type:LOGOUT})
