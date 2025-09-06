@@ -1,5 +1,5 @@
 import { API_URL, api } from "../../config/api";
-import { GET_USER_REQUEST, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType"
+import { ADD_TO_FAVORITE_REQUEST, ADD_TO_FAVORITE_SUCCESS, GET_USER_FAILURE, GET_USER_REQUEST, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, REGISTER_REQUEST, REGISTER_SUCCESS } from "./ActionType"
 import axios from "axios";
 
 export const registerUser=(reqData)=>async(dispatch)=>{
@@ -17,6 +17,7 @@ export const registerUser=(reqData)=>async(dispatch)=>{
         console.log("register success", data);
         
     } catch (error) {
+        dispatch({type:REGISTER_FAILURE,payload:error})
         console.log("error",error)
     }
 }
@@ -36,6 +37,7 @@ export const loginUser=(reqData)=>async(dispatch)=>{
         console.log("login success", data)
         
     } catch (error) {
+        dispatch({type:LOGIN_FAILURE,payload:error})
         console.log("error",error)
     }
 }
@@ -43,14 +45,46 @@ export const loginUser=(reqData)=>async(dispatch)=>{
 export const getUser=(jwt)=>async(dispatch)=>{
     dispatch({type:GET_USER_REQUEST})
     try {
-        const {data}=await api.post(`/auth/signin`, {
+        const {data}=await api.get(`/auth/signin`, {
             headers:{
                 Authorization:`Bearer ${jwt}`
             }
         })
 
-        dispatch({type:LOGIN_SUCCESS,payload:data.jwt})
+        dispatch({type:LOGIN_SUCCESS,payload:data})
         console.log("user profile", data)
+        
+    } catch (error) {
+        dispatch({type:GET_USER_FAILURE,payload:error})
+        console.log("error",error)
+    }
+}
+
+export const addToFavorite=({jwt,restaurantId})=>async(dispatch)=>{
+    dispatch({type:ADD_TO_FAVORITE_REQUEST})
+    try {
+        const {data}=await api.put(`/api/restaurants/${restaurantId}/
+            add-favorite`,{},{
+            headers:{
+                Authorization:`Bearer ${jwt}`
+            }
+        })
+
+        dispatch({type:ADD_TO_FAVORITE_SUCCESS,payload:data})
+        console.log("added to favorite", data)
+        
+    } catch (error) {
+        dispatch({type:ADD_TO_FAVORITE_FAILURE,payload:error})
+        console.log("error",error)
+    }
+}
+
+export const logout =()=>async(dispatch)=>{
+    dispatch({type:ADD_TO_FAVORITE_REQUEST})
+    try {
+        localStorage.clear();
+        dispatch({type:LOGOUT})
+        console.log("logout success")
         
     } catch (error) {
         console.log("error",error)
