@@ -3,7 +3,7 @@ import { Card, Chip, IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const RestaurantCard = () => {
+const RestaurantCard = ({item}) => {
   return (
     <Card className='m-5 w-[18rem]'>
         <div className={`${true?'cursor-pointer':"cursor-not-allowed"} relative`}>
