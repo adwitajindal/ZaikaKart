@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use } from 'react'
 import Grid from '@mui/material/Grid';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -10,15 +10,12 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { FormControlLabel } from '@mui/material';
 import { useState } from 'react';
 import MenuCard from './MenuCard';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
+import { getRestaurantById } from '../State/Restaurant/Action';
 
 
-const categories=[
-  "pizza",
-  "biryani",
-  "burger",
-  "chicken",
-  "rice"
-]
+
 const foodTypes=[
   {label:"All", value:"all"},
   {label:"Vegetarian only", value:"vegetarian"},
@@ -30,9 +27,26 @@ const menu=[1,1,1,1,1,1];
 
 const RestaurantDetails = () => {
   const [foodType, setFoodType]=useState("all");
+  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const jwt=localStorage.getItem("jwt")
+  const {auth,restaurant}=useSelector(store=>store)
+
+  const {id,city} = useParams();
+
   const handleFilter=(e)=>{
    console.log(e.target.value,e.target.name);
   }
+
+  console.log("restaurant",restaurant);
+
+useEffect(()=>{
+  dispatch(getRestaurantById({jwt,restaurantId:id}))
+  dispatch(getRestaurantsCategory({jwt,restaurantId:id}))
+},[])
+
+
+
   return (
     <div className='px-5 lg:px-20'>
         <section>
@@ -40,19 +54,20 @@ const RestaurantDetails = () => {
             <div>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <img className="w-full h-[40vh] object-cover"src="http://res.cloudinary.com/dcpesbd8q/image/upload/v1707802815/ux3xq93xzfbqhtudigv2.jpg" alt=""/>
+                  <img className="w-full h-[40vh] object-cover"src={restaurant.restaurant?.images[0]} alt=""/>
               </Grid>
-              <Grid item xs={12} lg={12}>
-                  <img className="w-full h-[40vh] object-cover"src="http://res.cloudinary.com/dcpesbd8q/image/upload/v1707802819/cpfxroggttxg6tedfskd.jpg" alt=""/>
+              <Grid item xs={12} lg={6}>
+                  <img className="w-full h-[40vh] object-cover"src={restaurant.restaurant?.images[1]} alt=""/>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={6}>
                   <img className="w-full h-[40vh] object-cover"src="http://res.cloudinary.com/dcpesbd8q/image/upload/v1707802825/dtwyuhxuawmg3qzffv84.jpg" alt=""/>
               </Grid>
               </Grid>
             </div>
             <div className='pt-3 pb-5'>
-              <h1 className='text-4xl font-semibold'>Indian Fast Food</h1>
-              <p className='text-gray-500 mt-1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt, maxime nobis fuga dolore dignissimos possimus necessitatibus sed tempora libero tempore fugit vel quis voluptates non eaque magni veritatis, repellat exercitationem!</p>
+              <h1 className='text-4xl font-semibold'>{restaurant.restaurant?.name}</h1>
+              <p className='text-gray-500 mt-1'>
+                {restaurant.restaurant?.description}</p>
               <div className='space-y-3 mt-3'> 
                 <p className='text-gray-500 flex items-xenter gap-3'>
                 <LocationOnIcon/>
@@ -99,12 +114,12 @@ const RestaurantDetails = () => {
 
                       <FormControl className='py-10 space-y-5 component={"fieldset"}'>
                         <RadioGroup onChange={handleFilter} name="food_type" value={foodType}>
-                          {categories.map((item)=>(
+                          {restaurant.categories.map((item)=>(
                             <FormControlLabel 
                             key={item}
                             value={item} 
                             control={<Radio />} 
-                            label={item} />
+                            label={item.name} />
                           ))}
                         </RadioGroup>
                       </FormControl>

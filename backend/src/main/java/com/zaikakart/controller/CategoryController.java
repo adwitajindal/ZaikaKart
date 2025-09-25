@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class CatogoryController {
+public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
@@ -30,11 +30,13 @@ public class CatogoryController {
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
-    @GetMapping("/category/restaurant")
-    public ResponseEntity<List<Category>> getRestaurantCategory( @RequestHeader("Authorization") String jwt) throws Exception{
+    @GetMapping("/category/restaurant/{id}")
+    public ResponseEntity<List<Category>> getRestaurantCategory( 
+        @PathVariable Long id,
+        @RequestHeader("Authorization") String jwt) throws Exception{
         User user = userService.findUserByJwtToken(jwt);
 
-       List<Category> categories = categoryService.findCategoryByRestaurantId(user.getId());
+       List<Category> categories = categoryService.findCategoryByRestaurantId(id);
 
         return new ResponseEntity<>(categories, HttpStatus.CREATED);
     }
