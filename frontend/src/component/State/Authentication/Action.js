@@ -17,7 +17,7 @@ import {
     ADD_TO_FAVORITE_REQUEST,
     ADD_TO_FAVORITE_SUCCESS,
     ADD_TO_FAVORITE_FAILURE
-} from "./ActionType";
+} from "./ActionTypes";
 import axios from "axios";
 
 export const registerUser=(reqData)=>async(dispatch)=>{

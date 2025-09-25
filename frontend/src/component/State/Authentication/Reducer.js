@@ -13,7 +13,7 @@ import {
   GET_USER_SUCCESS,
   REGISTER_SUCCESS,
   LOGOUT
-} from "./ActionType";
+} from "./ActionTypes";
 
 
 const intialState={
