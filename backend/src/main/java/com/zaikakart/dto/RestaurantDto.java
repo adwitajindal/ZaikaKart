@@ -15,7 +15,7 @@ public class RestaurantDto {
 
     @Column(columnDefinition = "LONGTEXT")
     private String images; // store JSON of List<String>
-
+    
     private String description;
     private Long id;
 
