@@ -1,4 +1,3 @@
-import {api} from "../../../config/api";
 import{
     CREATE_MENU_ITEM_REQUEST,
     DELETE_MENU_ITEM_FAILURE,
@@ -15,6 +14,7 @@ import{
     UPDATE_MENU_ITEMS_AVAILABILITY_SUCCESS,
 
 } from "./ActionTypes";
+import api from "../../../api"; // Make sure this path points to your api instance (e.g., axios instance)
 
 export const createMenuItem=({menu,jwt})=>{
     return async(dispatch)=>{
@@ -52,6 +52,7 @@ export const getMenuItemsByRestaurantId=({reqData})=>{
             dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS,payload:data});
         }
         catch(error){
+            console.log("catch error ",error);
             dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,payload:error});
         }
     };
