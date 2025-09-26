@@ -16,7 +16,7 @@ import {
 } from "./ActionTypes";
 
 
-const intialState={
+const initialState={
     user:null,
     isLoading:false,
     error:null,
@@ -45,6 +45,7 @@ export const authReducer=(state=intialState,action)=>{
             ...state,
             isLoading:false,
             user:action.payload,
+            favorites:action.payload.favorites
         }; 
     case ADD_TO_FAVORITE_SUCCESS:
         return {...state,
@@ -55,7 +56,7 @@ export const authReducer=(state=intialState,action)=>{
             :[action.payload,...state.favorites]
         }
     case LOGOUT:
-        return intialState;
+        return initialState;
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
     case GET_USER_FAILURE:

@@ -1,69 +1,97 @@
-import React from 'react'
-import { Accordion , AccordionDetails , AccordionSummary,FormGroup,FormControlLabel,Checkbox,Button} from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from "react";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Button,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { categorizeIngredients } from "../util/categorizeIngredients";
 
-const demo =[
+const demo = [
   {
-    category : "Nuts & seeds",
-    ingredients:["Cashews"]
+    category: "Nuts & seeds",
+    ingredients: ["Cashews"],
   },
   {
-    category:"Protein",
-    ingredients:["Ground beef","Bacon strips"]
-  }
-]
+    category: "Protein",
+    ingredients: ["Ground beef", "Bacon strips"],
+  },
+];
 
-const MenuCard = () => {
-  const handleCheckBoxChange=(value)=>{
+const MenuCard = ({ item }) => {
+  const handleCheckBoxChange = (value) => {
     console.log(value);
-
+  };
+  const handleAddItemToCart = () => {
+    const reqData = {
+      token:localStorage.getItem("jwt"),
+      cartItem: {
+        menuItemId:item.id,
+        quantity: 1
+    }
+    }
   }
   return (
-    <Accordion >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <div className='lg:flex items-center justify-between'>
-            <div className='lg:flex items-center lg:gap-5' >
-              <img 
-              className='w-[7rem] h-[7rem] object-cover'
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9QtnO3foqd-kxsK0zw8qGoLwIt31W-px5vw&s"
-               alt="" />
-               <div className='space-y-1 lg:space-y-5 lg:max-w-2xl'>
-                <p className='font-semibold text-xl'>Burger</p>
-                <p>₹499</p>
-                <p className='text-gray-400'>A burger is a juicy bundle of flavor stacked between two buns.</p>
-               </div>
+    <Accordion>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1-content"
+        id="panel1-header"
+      >
+        <div className="lg:flex items-center justify-between">
+          <div className="lg:flex items-center lg:gap-5">
+            <img
+              className="w-[7rem] h-[7rem] object-cover"
+              src={item.images[0]}
+              alt=""
+            />
+            <div className="space-y-1 lg:space-y-5 lg:max-w-2xl">
+              <p className="font-semibold text-xl">{item.name}</p>
+              <p>{item.price}</p>
+              <p className="text-gray-400">{item.description}</p>
             </div>
-
           </div>
-        </AccordionSummary>
-        <AccordionDetails>
-          <form>
-            <div className='flex gap-5 flex-wrap'>
-              {
-                demo.map((item)=>
-                  <div>
-                    <p>{item.category}</p>
-                       <FormGroup>
-      {item.ingredients.map((item)=> <FormControlLabel control={<Checkbox onChange={() => handleCheckBoxChange(item)}/>} label={item} />)}
-      
-    </FormGroup>
-                  </div>
-                
-                )
-              }
-            </div>
-            <div className='pt-5'>
-              <Button variant="contained" disabled={false} type='submit'>{true?"Add to Cart":"Out of Stock"}</Button>
-            </div>
-          </form>
-        </AccordionDetails>
-      </Accordion>
-     
-  )
-}
+        </div>
+      </AccordionSummary>
+      <AccordionDetails>
+        <form>
+          <div className="flex gap-5 flex-wrap">
+            {Object.keys(categorizeIngredients(item.ingredients)).map(
+              (category) => (
+                <div>
+                  <p>{category}</p>
+                  <FormGroup>
+                    {categorizeIngredients(item.ingredients)[category].map(
+                      (item) => (
+                        <FormControlLabel
+                          key={item.name}
+                          control={
+                            <Checkbox
+                              onChange={() => handleCheckBoxChange(item)}
+                            />
+                          }
+                          label={item.name}
+                        />
+                      )
+                    )}
+                  </FormGroup>
+                </div>
+              )
+            )}
+          </div>
+          <div className="pt-5">
+            <Button variant="contained" disabled={false} type="submit">
+              {true ? "Add to Cart" : "Out of Stock"}
+            </Button>
+          </div>
+        </form>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
 
-export default MenuCard
+export default MenuCard;
