@@ -10,9 +10,9 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { FormControlLabel } from "@mui/material";
 import { useState } from "react";
 import MenuCard from "./MenuCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getRestaurantById } from "../State/Restaurant/Action";
+import { getRestaurantById, getRestaurantsCategory } from "../State/Restaurant/Action";
 import { getMenuItemsByRestaurantId } from "../State/Menu/Action";
 
 const foodTypes = [

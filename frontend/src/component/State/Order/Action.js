@@ -1,4 +1,4 @@
-import {api} from "../../../config/api";
+import {api} from "../../config/api";
 import {
     CREATE_ORDER_FAILURE,
     CREATE_ORDER_REQUEST,
@@ -21,8 +21,8 @@ export const createOrder=(reqData)=>{
         // if(data.payment_url){
         //     window.location.href=data.payment_url;
         // }
-            console.log("created order data ",data);
-            dispatch({type:CREATE_ORDER_SUCCESS,payload:data});
+            console.log("created order data ",reqData);
+            dispatch({type:CREATE_ORDER_SUCCESS,payload:reqData});
         }
         catch(error){
             console.log("error ",error);

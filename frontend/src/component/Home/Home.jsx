@@ -5,15 +5,16 @@ import RestaurantCard from '../Restaurant/RestaurantCard';
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllRestaurantsAction } from '../State/Restaurant/Action'
 import { useNavigate } from 'react-router-dom';
+import { findCart } from '../State/Cart/Action';
 
 const Home = () => {
   const dispatch = useDispatch()
   const jwt = localStorage.getItem("jwt")
   const { restaurant } = useSelector(store => store)
-  const navigate = useNavigate();
-  
+  console.log("restaurant data:", restaurant);
   useEffect(() => {
     dispatch(getAllRestaurantsAction(jwt))
+    
   }, [dispatch, jwt])
 
   // Get restaurants from Redux store

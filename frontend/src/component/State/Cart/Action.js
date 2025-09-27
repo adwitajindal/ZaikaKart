@@ -1,8 +1,8 @@
-import {api} from "../../../config/api";
+import {api} from "../../config/api";
 import {
-    ADD_ITEM_TO_CART_FAILURE,
-    ADD_ITEM_TO_CART_REQUEST,
-    ADD_ITEM_TO_CART_SUCCESS,
+    ADD_TO_CART_FAILURE,
+    ADD_TO_CART_REQUEST,
+    ADD_TO_CART_SUCCESS,
     CLEARE_CART_FAILURE,
     CLEARE_CART_REQUEST,
     CLEARE_CART_SUCCESS,
@@ -25,13 +25,15 @@ export const findCart=(token)=>{
         dispatch({type:FIND_CART_REQUEST});
         try{
             const response=await api.get(
-                `api/cart/`,{
+                `api/cart`,{
                 headers:{Authorization:`Bearer ${token}`,
                 },
         });
+            console.log("my cart ",response.data);
             dispatch({type:FIND_CART_SUCCESS,payload:response.data});
         }
         catch(error){
+            console.log("error ",error);
             dispatch({type:FIND_CART_FAILURE,payload:error});
         }
     };
@@ -40,7 +42,7 @@ export const getAllCartItems=(reqData)=>{
     return async(dispatch)=>{
         dispatch({type:GET_ALL_CART_ITEMS_REQUEST});
         try{
-            const response=await api.get(`/api/cart/${reqData .cartId}/items`,{
+            const response=await api.get(`/api/cart/${reqData.cartId}/items`,{
                 headers:{Authorization:`Bearer ${reqData.token}`,
             },
         });
@@ -51,19 +53,19 @@ export const getAllCartItems=(reqData)=>{
         }
     };
 }
-export const addToCart=(reqData)=>{
+export const addItemToCart=(reqData)=>{
     return async(dispatch)=>{
-        dispatch({type:ADD_ITEM_TO_CART_REQUEST});
+        dispatch({type:ADD_TO_CART_REQUEST});
         try{
             const {data}=await api.put(`api/cart/add`, reqData.cartItem,{
                 headers:{Authorization:`Bearer ${reqData.token}`,
             },
         });
             console.log("add item to cart ",data);
-            dispatch({type:ADD_ITEM_TO_CART_SUCCESS,payload:data});
+            dispatch({type:ADD_TO_CART_SUCCESS,payload:data});
         }
         catch(error){
-            dispatch({type:ADD_ITEM_TO_CART_FAILURE,payload:error.message});
+            dispatch({type:ADD_TO_CART_FAILURE,payload:error.message});
         }
     };
 }
@@ -84,7 +86,7 @@ export const updateCartItem=(reqData)=>{
     };
 }
 
-export const remooveCartItem=({cartItemId,jwt})=>{
+export const removeCartItem=({cartItemId,jwt})=>{
     return async(dispatch)=>{
         dispatch({type:REMOVE_CARTITEM_REQUEST});
         try{

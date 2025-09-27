@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { categorizeIngredients } from "../util/categorizeIngredients";
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "../State/Cart/Action";
 
 const demo = [
   {
@@ -23,18 +25,32 @@ const demo = [
 ];
 
 const MenuCard = ({ item }) => {
-  const handleCheckBoxChange = (value) => {
-    console.log(value);
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const dispatch = useDispatch();
+  
+  const handleCheckBoxChange = (itemName) => {
+    console.log(itemName);
+    if(selectedIngredients.includes(itemName)){
+      setSelectedIngredients(selectedIngredients.filter(item=>item!==itemName));
+    }else{
+      setSelectedIngredients([...selectedIngredients,itemName]);
+    }
   };
-  const handleAddItemToCart = () => {
+  const handleAddItemToCart = (e) => {
+    e.preventDefault();
     const reqData = {
       token:localStorage.getItem("jwt"),
       cartItem: {
-        menuItemId:item.id,
-        quantity: 1
-    }
-    }
-  }
+        foodId:item.id,
+        quantity: 1,
+        ingredients:selectedIngredients,
+    },
+    };
+    dispatch(addItemToCart(reqData));
+    console.log("req data:",reqData);
+  };
+
+  
   return (
     <Accordion>
       <AccordionSummary
@@ -58,7 +74,7 @@ const MenuCard = ({ item }) => {
         </div>
       </AccordionSummary>
       <AccordionDetails>
-        <form>
+        <form onSubmit={handleAddItemToCart}>
           <div className="flex gap-5 flex-wrap">
             {Object.keys(categorizeIngredients(item.ingredients)).map(
               (category) => (
@@ -68,7 +84,7 @@ const MenuCard = ({ item }) => {
                     {categorizeIngredients(item.ingredients)[category].map(
                       (item) => (
                         <FormControlLabel
-                          key={item.name}
+                          key={item.id}
                           control={
                             <Checkbox
                               onChange={() => handleCheckBoxChange(item)}
