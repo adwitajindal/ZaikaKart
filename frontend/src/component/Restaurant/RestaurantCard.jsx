@@ -3,7 +3,7 @@ import { Card, Chip, IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorite } from '../State/Authentication/Action';
 import { isPresentInFavorites } from '../config/logic';
 
@@ -28,8 +28,8 @@ const RestaurantCard = ({item}) => {
     <Card className='w-[18rem]'>
         <div className={`${true?'cursor-pointer':"cursor-not-allowed"} relative`}>
             <img className='w-full h-[10rem] rounded-t-md object-cover'
-             src={item.images[1]}
-             alt=""
+             src={item.images && item.images.length > 1 ? item.images[1] : (item.images && item.images.length > 0 ? item.images[0] : "/default-image.jpg")}
+             alt={item.name || "Restaurant"}
              />
              <Chip
              size='small'

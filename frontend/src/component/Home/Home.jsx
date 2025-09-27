@@ -6,6 +6,7 @@ import {Auth} from '../Auth/Auth'
 import {useDispatch, useSelector} from 'react-redux'
 import {getAllRestaurantsAction} from '../State/Restaurant/Action'
 import { store } from '../State/store';
+import { useNavigate } from 'react-router-dom';
 const restaurant=[1,1,1,1,1,1,1,1];
 const Home = () => {
   const dispatch=useDispatch()
@@ -42,7 +43,7 @@ const Home = () => {
           <h1 className='text-2xl font-semibold text-gray-400 pb-8'>Order From Out Handpicked Favorites</h1>
           <div className='flex flex-wrap items-center justify-around gap-5'>
             {
-              restaurant.restaurants.map((item) => <RestaurantCard item={item}/>)
+              restaurant.map((item) => <RestaurantCard item={item}/>)
             }
           </div>
         </section>
