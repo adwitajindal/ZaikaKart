@@ -77,7 +77,7 @@ const restaurantReducer = (state = initialState, action) => {
             loading:false,
             events:action.payload,
         }
-    case actionTypes.GET_RESTAIRANTS_EVENTS_SUCCESS:
+    case actionTypes.GET_RESTAURANTS_EVENTS_SUCCESS:
         return{
             ...state,
             loading:false,
@@ -113,7 +113,10 @@ const restaurantReducer = (state = initialState, action) => {
         return{
             ...state,
             loading:false,
-            error:action.payload,
+             error: typeof action.payload === 'string' 
+                    ? action.payload 
+                    : action.payload?.message || 'An error occurred'
+            
         };
     default:
         return state;

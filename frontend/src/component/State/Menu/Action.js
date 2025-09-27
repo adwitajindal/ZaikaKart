@@ -1,22 +1,24 @@
-import {
+import { api } from '../../config/api'
+import { getRestaurantById } from '../Restaurant/Action';
+import { 
+    CREATE_MENU_ITEM_REQUEST,
+    CREATE_MENU_ITEM_SUCCESS,
     CREATE_MENU_ITEM_FAILURE,
-    CREATE_MENU_ITEM_REQUEST, CREATE_MENU_ITEM_SUCCESS,
-    DELETE_MENU_ITEM_FAILURE,
-    DELETE_MENU_ITEM_REQUEST,
-    DELETE_MENU_ITEM_SUCCESS,
-    GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,
     GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST,
     GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS,
-    SEARCH_MENU_ITEM_FAILURE,
+    GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE,
+    DELETE_MENU_ITEM_REQUEST,
+    DELETE_MENU_ITEM_SUCCESS,
+    DELETE_MENU_ITEM_FAILURE,
     SEARCH_MENU_ITEM_REQUEST,
     SEARCH_MENU_ITEM_SUCCESS,
-    UPDATE_MENU_ITEMS_AVAILABILITY_FAILURE,
+    SEARCH_MENU_ITEM_FAILURE,
     UPDATE_MENU_ITEMS_AVAILABILITY_REQUEST,
     UPDATE_MENU_ITEMS_AVAILABILITY_SUCCESS,
+    UPDATE_MENU_ITEMS_AVAILABILITY_FAILURE
+} from './ActionTypes'
 
-} from "./ActionTypes";
-import {api} from "../../config/api";
-
+// ...rest of your existing code...
 export const createMenuItem=({menu,jwt})=>{
     return async(dispatch)=>{
         dispatch({type:CREATE_MENU_ITEM_REQUEST});
@@ -40,7 +42,7 @@ export const getMenuItemsByRestaurantId=({reqData})=>{
         dispatch({type:GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST}); 
         try{
             const {data}=await api.get(
-                `api/food/restaurant/${restaurantId}?vegetarian=${reqData.
+                `api/food/restaurant/${getRestaurantById}?vegetarian=${reqData.
                     vegetarian}&nonveg=${reqData.nonveg}
                 &seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`,
                 {

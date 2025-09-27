@@ -3,7 +3,7 @@ import { Card, Chip, IconButton } from '@mui/material'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { addToFavorite } from '../State/Authentication/Action';
 import { isPresentInFavorites } from '../config/logic';
 
@@ -15,7 +15,21 @@ const RestaurantCard = ({item}) => {
   const auth=useSelector(store=>store)
 
   const handleAddToFavorite=()=>{
-    dispatch(addToFavorite({restaurantId:item.id,jwt}))
+     if (!item || !item.id) {
+      console.error("Restaurant item or ID is missing:", item);
+      return;
+    }
+    
+    if (!jwt) {
+      console.error("JWT token is missing");
+      return;
+    }
+
+    const reqData = {
+      restaurantId: item.id,
+      jwt: jwt
+    };
+    dispatch(addToFavorite(reqData));
   }
 
     const handleNavigateToRestaurant=()=>{
@@ -23,13 +37,15 @@ const RestaurantCard = ({item}) => {
        navigate(`/restaurant/${item.address.city}/${item.name}/${item.id}`)
   }
 }
+const isFavorite = false;
 
   return (
     <Card className='w-[18rem]'>
         <div className={`${true?'cursor-pointer':"cursor-not-allowed"} relative`}>
             <img className='w-full h-[10rem] rounded-t-md object-cover'
-             src={item.images && item.images.length > 1 ? item.images[1] : (item.images && item.images.length > 0 ? item.images[0] : "/default-image.jpg")}
-             alt={item.name || "Restaurant"}
+             // You can also simplify the image src like this:
+src={item?.images?.[1] || item?.images?.[0] || 'https://via.placeholder.com/300x160?text=Restaurant+Image'}
+             alt=""
              />
              <Chip
              size='small'
@@ -46,8 +62,8 @@ const RestaurantCard = ({item}) => {
             </p>
           </div>
           <div>
-            <IconButton onClick={handleAddToFavorite}>
-              {isPresentInFavorites(auth.favorites, item) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+           <IconButton onClick={handleAddToFavorite}>
+              {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
           </div>
         </div>
