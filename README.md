@@ -50,25 +50,25 @@ VS Code (Frontend development)
 
 ## 📂 Project Structure
 
-ZaikaKart/
-├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   ├── resources/
-│   │   ├── java/
-│   │   └── application.properties
-│   └── pom.xml
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── redux/
-│   │   ├── services/
-│   │   └── App.js
-│   ├── package.json
-│   └── tailwind.config.js
-└── README.md
+    ZaikaKart/
+    ├── backend/
+    │   ├── src/
+    │   │   ├── main/
+    │   │   ├── resources/
+    │   │   ├── java/
+    │   │   └── application.properties
+    │   └── pom.xml
+    ├── frontend/
+    │   ├── public/
+    │   ├── src/
+    │   │   ├── components/
+    │   │   ├── pages/
+    │   │   ├── redux/
+    │   │   ├── services/
+    │   │   └── App.js
+    │   ├── package.json
+    │   └── tailwind.config.js
+    └── README.md
 
 ## 🚀 Getting Started
 ### Prerequisites
